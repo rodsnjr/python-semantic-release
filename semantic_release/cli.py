@@ -152,6 +152,7 @@ def publish(**kwargs):
             upload_to_pypi(
                 username=os.environ.get('PYPI_USERNAME'),
                 password=os.environ.get('PYPI_PASSWORD'),
+                config_file=kwargs.get('.pypirc', '~/.pypirc')
                 # We are retrying, so we don't want errors for files that are already on PyPI.
                 skip_existing=retry,
             )
@@ -191,6 +192,7 @@ def main(**kwargs):
 
 
 @main.command(name='publish', help=publish.__doc__)
+@click.option('--pypirc', default='~/.pypirc', help='the pypirc file')
 @common_options
 def cmd_publish(**kwargs):
     return publish(**kwargs)
